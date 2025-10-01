@@ -23,7 +23,7 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
     token = os.getenv("GITHUB_TOKEN")
     
     # 2) Initialize GitHub client and get the repo
-    git = Github(auth=Auth.Token(token)) # prove we have access with a token
+    git = Github(token) # prove we have access with a token - this method is depreciated but the dummy code doesn't work if we do it the new way
     repo = git.get_repo(repo_name) # get the repo
 
     # 3) Fetch commit objects (paginated by PyGitHub)
@@ -38,8 +38,8 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
         cur_commit = all_commits[cur_i]
         cur_dict = { # put the information in a dictionary format
             'sha': cur_commit.sha,
-            'author': cur_commit.author.login,
-            'email': cur_commit.author.email,
+            'author': cur_commit.commit.author.name,
+            'email': cur_commit.commit.author.email,
             'date': cur_commit.commit.author.date,
             'message': cur_commit.commit.message.split('\n')[0] # only get the first line
         }

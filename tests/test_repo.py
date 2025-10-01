@@ -92,9 +92,9 @@ def test_fetch_commits_basic(monkeypatch):
 def test_fetch_commits_limit(monkeypatch):
     # More commits than max_commits
     commits = [
-        DummyCommit("7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", "octocat", "octocat@github.com", datetime(2012,3,6,23,6,50), "Merge pull request #6 from Spaceghost/patch-1"),
-        DummyCommit("762941318ee16e59dabbacb1b4049eec22f0d303", "Spaceghost", "git@spacegho.st", datetime(2011,9,14,4,42,41), "New line at end of file. --Signed off by Spaceghost"),
-        DummyCommit("553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", "Cameron423698", "", datetime(2011,1,26,19,6,8), "first commit")
+        DummyCommit("7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", "The Octocat", "octocat@nowhere.com", datetime(2012,3,6,23,6,50), "Merge pull request #6 from Spaceghost/patch-1"),
+        DummyCommit("762941318ee16e59dabbacb1b4049eec22f0d303", "Johnneylee Jack Rollins", "Johnneylee.rollins@gmail.com", datetime(2011,9,14,4,42,41), "New line at end of file. --Signed off by Spaceghost"),
+        DummyCommit("553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", "cameronmcefee", "cameron@github.com", datetime(2011,1,26,19,6,8), "first commit")
     ]
     gh_instance._repo = DummyRepo(commits, [])
     df = fetch_commits("any/repo", max_commits=1) # we know this repo has 3 commits, only get 1

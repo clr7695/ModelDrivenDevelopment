@@ -23,25 +23,25 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
     token = os.getenv("GITHUB_TOKEN")
     
     # 2) Initialize GitHub client and get the repo
-    git = Github(auth=Auth.Token(token))
-    repo = git.get_repo(repo_name)
+    git = Github(auth=Auth.Token(token)) # prove we have access with a token
+    repo = git.get_repo(repo_name) # get the repo
 
     # 3) Fetch commit objects (paginated by PyGitHub)
     all_commits = []
-    for commit in repo.get_commits():
+    for commit in repo.get_commits(): #putting it from a paginated list to a regular list so its easier to work with
         all_commits.append(commit)
 
     # 4) Normalize each commit into a record dict
     commit_dicts = []
     cur_i = 0
-    while (max_commits is None or cur_i < max_commits) and (cur_i < len(all_commits)):
+    while (max_commits is None or cur_i < max_commits) and (cur_i < len(all_commits)): # check that we are under the max if it exists and don't cause an index error
         cur_commit = all_commits[cur_i]
-        cur_dict = {
+        cur_dict = { # put the information in a dictionary format
             'sha': cur_commit.sha,
             'author': cur_commit.author,
             'email': cur_commit.author.email,
             'date': cur_commit.commit.author.date,
-            'message': cur_commit.commit.message.split('\n')[0]
+            'message': cur_commit.commit.message.split('\n')[0] # only get the first line
         }
         commit_dicts.append(cur_dict)
         cur_i += 1

@@ -38,7 +38,7 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
         cur_commit = all_commits[cur_i]
         cur_dict = { # put the information in a dictionary format
             'sha': cur_commit.sha,
-            'author': cur_commit.author,
+            'author': cur_commit.author.login,
             'email': cur_commit.author.email,
             'date': cur_commit.commit.author.date,
             'message': cur_commit.commit.message.split('\n')[0] # only get the first line

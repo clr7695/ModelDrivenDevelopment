@@ -12,7 +12,7 @@ Sub-commands:
 import os
 import argparse
 import pandas as pd
-from github import Github
+from github import Github, Auth
 
 def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
     """
@@ -23,8 +23,8 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
     token = os.getenv("GITHUB_TOKEN")
     
     # 2) Initialize GitHub client and get the repo
-    git = Github(token)
-    repo = git.get_user().get_repo(repo_name)
+    git = Github(auth=Auth.Token(token))
+    repo = git.get_repo(repo_name)
 
     # 3) Fetch commit objects (paginated by PyGitHub)
     all_commits = []
@@ -40,8 +40,8 @@ def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
             'sha': cur_commit.sha,
             'author': cur_commit.author,
             'email': cur_commit.author.email,
-            'date': cur_commit.author.date,
-            'message': cur_commit.message
+            'date': cur_commit.commit.author.date,
+            'message': cur_commit.commit.message.split('\n')[0]
         }
         commit_dicts.append(cur_dict)
         cur_i += 1

@@ -97,7 +97,7 @@ def fetch_issues(repo_name: str, state: str = "all", max_issues: int = None) -> 
         return df
 
     # converting string dates to datetimes to subtract and then convert to a standardized string format
-    df['created_at'] = pd.to_datetime(df['created_at'], format='mixed', utc=True).
+    df['created_at'] = pd.to_datetime(df['created_at'], format='mixed', utc=True)
     df['closed_at'] = pd.to_datetime(df['closed_at'], format='mixed', utc=True)
     open_duration_days = (df['closed_at'] - df['created_at']).dt.days
     df['created_at'] = df['created_at'].dt.strftime('%Y-%m-%d')

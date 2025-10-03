@@ -13,6 +13,7 @@ import os
 import argparse
 import pandas as pd
 from github import Github, Auth
+from dateutil import parser
 
 def fetch_commits(repo_name: str, max_commits: int = None) -> pd.DataFrame:
     """
@@ -56,10 +57,11 @@ def fetch_issues(repo_name: str, state: str = "all", max_issues: int = None) -> 
     Returns a DataFrame with columns: id, number, title, user, state, created_at, closed_at, comments.
     """
     # 1) Read GitHub token
-    # TODO
+    token = os.getenv("GITHUB_TOKEN")
 
     # 2) Initialize client and get the repo
-    # TODO
+    git = Github(token) # prove we have access with a token - this method is depreciated but the dummy code doesn't work if we do it the new way
+    repo = git.get_repo(repo_name) # get the repo
 
     # 3) Fetch issues, filtered by state ('all', 'open', 'closed')
     issues = repo.get_issues(state=state)
@@ -70,13 +72,35 @@ def fetch_issues(repo_name: str, state: str = "all", max_issues: int = None) -> 
         if max_issues and idx >= max_issues:
             break
         # Skip pull requests
-        # TODO
-
+        if issue.pull_request:
+            # print('Found Pull Request')
+            continue
         # Append records
-        # TODO
-
+        rec = {
+            'id': issue.id,
+            'number': issue.number,
+            'title': issue.title,
+            'user': issue.user,
+            'state': issue.state,
+            'created_at': issue.created_at,
+            'closed_at': issue.closed_at,
+            'comments': issue.comments
+        }
+        records.append(rec)
+    
     # 5) Build DataFrame
-    # TODO: return statement
+    df = pd.DataFrame(records)
+    if len(df) == 0:
+        print("No issues found. This might be because all issues fetched were pull requests.")
+
+
+    df['created_at'] = pd.to_datetime(df['created_at'], utc=True)
+    df['closed_at'] = pd.to_datetime(df['closed_at'], utc=True)
+    open_duration_days = (df['closed_at'] - df['created_at']).dt.days
+
+    df.insert(6, 'open_duration_days', open_duration_days)
+
+    return df
     
 
 def main():

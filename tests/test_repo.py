@@ -110,12 +110,50 @@ def test_fetch_commits_empty(monkeypatch):
 def test_fetch_issues_basic(monkeypatch):
     now = datetime.now()
     issues = [
-        DummyIssue(1, 101, "Issue A", "alice", "open", now, None, 0),
-        DummyIssue(2, 102, "Issue B", "bob", "closed", now - timedelta(days=2), now, 2)
+        DummyIssue(1, 101, "Issue A", "alice", "open", now.strftime('%Y-%m-%d'), None, 0),
+        DummyIssue(2, 102, "Issue B", "bob", "closed", (now - timedelta(days=2)).strftime('%Y-%m-%d'), now.strftime('%Y-%m-%d'), 2)
     ]
     gh_instance._repo = DummyRepo([], issues)
     df = fetch_issues("any/repo", state="all")
     assert {"id", "number", "title", "user", "state", "created_at", "closed_at", "comments"}.issubset(df.columns)
     assert len(df) == 2
-    # Check date normalization
-    # TODO
+
+def test_fetch_issues_no_pr(monkeypatch):
+    now = datetime.now()
+    issues = [
+        DummyIssue(1, 101, "Issue A", "alice", "open", now.strftime('%Y-%m-%d'), None, 0),
+        DummyIssue(2, 102, "Issue B", "bob", "closed", (now - timedelta(days=2)).strftime('%Y-%m-%d'), now.strftime('%Y-%m-%d'), 2, is_pr=True)
+    ]
+    gh_instance._repo = DummyRepo([], issues)
+    df = fetch_issues("any/repo", state="all")
+    assert {"id", "number", "title", "user", "state", "created_at", "closed_at", "comments"}.issubset(df.columns)
+    assert len(df) == 1
+
+def test_fetch_issues_date_parsing(monkeypatch):
+    issues = [
+        DummyIssue(1, 101, "Issue A", "alice", "open", '10/2/2025', None, 0),
+        DummyIssue(2, 102, "Issue B", "bob", "closed", '2023-12-3', '10/2/2024', 2)
+    ]
+    gh_instance._repo = DummyRepo([], issues)
+    df = fetch_issues("any/repo", state="all")
+    assert {"id", "number", "title", "user", "state", "created_at", "closed_at", "comments"}.issubset(df.columns)
+    print(df['created_at'])
+    print(df["closed_at"])
+    assert {"2025-10-02", "2023-12-03"}.issubset(df['created_at'])
+    assert {'2024-10-02'}.issubset(df['closed_at'])
+
+def test_fetch_issues_duration(monkeypatch):
+    issues = [
+        DummyIssue(1, 101, "Issue A", "alice", "open", '10/2/2025', None, 0),
+        DummyIssue(2, 102, "Issue B", "bob", "closed", '2023-12-3', '10/2/2024', 2)
+    ]
+    gh_instance._repo = DummyRepo([], issues)
+    df = fetch_issues("any/repo", state="all")
+    assert {"id", "number", "title", "user", "state", "created_at", "closed_at", "comments"}.issubset(df.columns)
+    print(df['open_duration_days'])
+    assert df['open_duration_days'].isna().any()
+    assert {304}.issubset(df['open_duration_days'])
+
+
+
+

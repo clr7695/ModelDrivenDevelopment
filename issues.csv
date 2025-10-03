@@ -1,0 +1,11 @@
+id,number,title,user,state,created_at,open_duration_days,closed_at,comments
+3478061455,101521,Fix the docstring in `tf.raw_ops.ThreadPoolHandle()` and `tf.raw_ops.StatsAggregatorHandleV2()`,"NamedUser(login=""ILCSFNO"")",open,2025-10-02 15:59:18+00:00,,,1
+3477848047,101516,Fix the Doc of `input_min` and `input_max` in `tf.raw_ops.QuantizeAndDequantizeV4Grad()`,"NamedUser(login=""ILCSFNO"")",open,2025-10-02 14:57:05+00:00,,,1
+3477105566,101499,tf.keras.applications.EfficientNetV2L `include_top=False` but still see the `top_activation` in the transfer-learning model,"NamedUser(login=""khteh"")",open,2025-10-02 11:11:35+00:00,,,0
+3475931087,101472,Footer Responsiveness on Mobile,"NamedUser(login=""Sujal1201"")",open,2025-10-02 04:13:26+00:00,,,2
+3474172770,101445,Bug in tf.keras.layer.Attention Doc,"NamedUser(login=""chengdusunny"")",open,2025-10-01 15:52:49+00:00,,,0
+3471811412,101409,[TF/Keras][Conv3D+MaxPool3D] Zero-sized spatial dims cause fatal cuDNN abort (should raise Python InvalidArgumentError instead),"NamedUser(login=""tinywisdom"")",open,2025-10-01 02:57:33+00:00,,,0
+3470809942,101397,Tensorflow lite CVE-2022-23559 fixes potentially incomplete,"NamedUser(login=""buttered-stoast"")",open,2025-09-30 19:28:28+00:00,,,0
+3470501276,101391,How to Install old TF versions? My package relies on old package of TF that is currently not accessible via Pypi and I need that- how to solve?,"NamedUser(login=""adityas129"")",open,2025-09-30 18:00:00+00:00,,,0
+3468118018,101361,An exception caused by a lack of null check in the SimpleMemoryArena::Commit function,"NamedUser(login=""karmenOvO-cc"")",open,2025-09-30 08:16:48+00:00,,,1
+3467741256,101358,TensorFlow Lite in Play Services issue,"NamedUser(login=""uhhuhohyeababy"")",open,2025-09-30 06:16:47+00:00,,,0

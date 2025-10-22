@@ -150,9 +150,11 @@ def test_merge_and_summarize_output(capsys):
         "user": ["u1","u2","u3"],
         "state": ["closed","open","closed"],
         "created_at": ["2025-01-01T00:00:00","2025-01-01T02:00:00","2025-01-02T00:00:00"],
+        "open_duration_days": [0, None, 0],
         "closed_at": ["2025-01-01T12:00:00",None,"2025-01-02T12:00:00"],
         "comments": [0,1,2]
     })
+
     # Run summarize
     merge_and_summarize(df_commits, df_issues)
     captured = capsys.readouterr().out

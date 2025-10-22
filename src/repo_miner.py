@@ -123,15 +123,31 @@ def merge_and_summarize(commits_df: pd.DataFrame, issues_df: pd.DataFrame) -> No
     issues  = issues_df.copy()
 
     # 1) Normalize date/time columns to pandas datetime
-    commits['date']      = pd.to_datetime(commits['date'], errors='coerce')
-    # TODO issues['created_at'] = ...
-    # issues['closed_at']  = ...
+    commits['date'] = pd.to_datetime(commits['date'], errors='coerce')
+    issues['created_at'] = pd.to_datetime(issues["created_at"], utc=True)
+    issues['closed_at'] = pd.to_datetime(issues["closed_at"], utc=True)
 
     # 2) Top 5 committers
+    top_committers = commits['author'].value_counts().head(5)
+    top_c_names = top_committers.index.tolist()
+    print("Top 5 committers:")
+    for c in top_c_names:
+        print(c + ": " + str(top_committers[c]) + " commits")
+    print()
 
     # 3) Calculate issue close rate
+    states = issues["state"].value_counts()
+    closed = states["closed"] if "closed" in states.keys() else 0
+    close_rate = round(closed/len(issues), 2)
+    print("Issue close rate: " + str(close_rate))
+    print()
 
     # 4) Compute average open duration (days) for closed issues
+    issues["duration"] = issues["closed_at"] - issues["created_at"]
+    issues["duration"] = issues["duration"].dt.days
+    avg_duration = round(issues["open_duration_days"].mean(), 2)
+    print("Avg. issue open duration: " + str(avg_duration) + " days")
+    print()
     
 
 def main():

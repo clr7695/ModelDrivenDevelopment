@@ -1,5 +1,5 @@
 id,number,title,user,state,created_at,open_duration_days,closed_at,comments
-3478061455,101521,Fix the docstring in `tf.raw_ops.ThreadPoolHandle()` and `tf.raw_ops.StatsAggregatorHandleV2()`,"NamedUser(login=""ILCSFNO"")",open,2025-10-02 15:59:18+00:00,,,1
+3478061455,101521,Fix the docstring in `tf.raw_ops.ThreadPoolHandle()` and `tf.raw_ops.StatsAggregatorHandleV2()`,"NamedUser(login=""ILCSFNO"")",closed,2025-10-02 15:59:18+00:00,5,,1
 3477848047,101516,Fix the Doc of `input_min` and `input_max` in `tf.raw_ops.QuantizeAndDequantizeV4Grad()`,"NamedUser(login=""ILCSFNO"")",open,2025-10-02 14:57:05+00:00,,,1
 3477105566,101499,tf.keras.applications.EfficientNetV2L `include_top=False` but still see the `top_activation` in the transfer-learning model,"NamedUser(login=""khteh"")",open,2025-10-02 11:11:35+00:00,,,0
 3475931087,101472,Footer Responsiveness on Mobile,"NamedUser(login=""Sujal1201"")",open,2025-10-02 04:13:26+00:00,,,2

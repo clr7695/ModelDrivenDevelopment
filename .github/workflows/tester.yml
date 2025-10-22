@@ -2,7 +2,7 @@ name: Tester
 
 on:
   push:
-    branches: ["main", "rm2-dev"]
+    branches: ["main", "rm3-dev"]
 
 jobs:
   test:
